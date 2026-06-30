@@ -31,12 +31,19 @@ def show_all_chores():
         sql = """
             SELECT id, name, priority, complete
             FROM chores
+            ORDER BY priority ASC
         """
         params = ()
-        creatures = db.execute(sql, params).fetchall()
+        chores = db.execute(sql, params).fetchall()
 
         return render_template("pages/chore_list.jinja", chores=chores)
 
+#-----------------------------------------------------------
+# New Creature form
+#-----------------------------------------------------------
+@app.get("/chore/new")
+def show_chore_form():
+    return render_template("pages/chore_new.jinja")
 
 #-----------------------------------------------------------
 # Help page - Show some help
@@ -51,6 +58,39 @@ def show_help():
 
     return render_template("pages/help.jinja")
 
+#-----------------------------------------------------------
+# Handel the creature form
+#-----------------------------------------------------------
+@app.post("/chore/new")
+def process_chore_form():
+    #get form data
+    priority = request.form.get("priotiry", "unknown").strip() #defult value if no species
+    name = request.form.get("name", "unknown").strip()
+
+    #connect to the DB
+    with connect_db() as db:
+        sql = """
+            INSERT INTO chores (priority, name)
+            VALUES (?, ?)
+        """
+        params = (priority, name)
+
+        #run qeury
+        db.execute(sql, params)
+
+        flash(f"Chore {name} added successfully")
+
+        #done, return to list
+        return redirect("/")
+#-----------------------------------------------------------
+# check the box 
+#-----------------------------------------------------------
+@app.get("/chore/<int:id>/complete")
+def show_box_ticked():
+    sql = """
+            SELECT chore FROM tasks WHERE complete=1
+        """
+    return render_template("pages/chore_list.jinja")
 
 #===========================================================
 # Configure the app

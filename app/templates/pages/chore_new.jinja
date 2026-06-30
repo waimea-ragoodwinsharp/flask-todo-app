@@ -1,0 +1,32 @@
+{% block content %}
+
+
+    <h2>New chore</h2>
+
+    <form method="post" action="/chore/new">
+        <label>
+
+            Name
+            <input type="text" name="name" required>
+
+        </label>
+
+        <label>
+       
+            priority 
+            <input type="text" name="priority" required>
+
+        </label>
+
+        {# <label>
+       
+            Image
+            <input type="img" name="image" required>
+
+        </label> #}
+
+        <button>Add chore</button>
+   
+    </form>
+    
+{% endblock %}

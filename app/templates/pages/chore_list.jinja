@@ -11,11 +11,17 @@
 
     <section id="chores">
 
-        {% for creature in creatures %}
+        {% for chore in chores %}
 
             <div class="chores">
                 <h3>{{ chore.name }}</h3>
-                <p>Person: <strong>{{ chore.person }}</strong></p>
+                <p><strong>{{ chore.priority }}</strong></p>
+
+                    {% if chore.complete %} 
+                        <a href="/chore/{{ chore.id }}/complete">🗹</a> 
+                    {% else %} 
+                        <a href="/chore/{{ chore.id }}/complete">☐</a> 
+                    {% endif %}
             </div>
 
         {% else %}
@@ -23,8 +29,40 @@
             <p>No Chores!</p>
 
         {% endfor %}
+        
 
     </section>
+
+    
+<h2>New chore</h2>
+
+    <form method="post" action="/chore/new">
+        <label>
+
+            Name
+            <input type="text" name="name" required>
+
+        </label>
+
+        <label>
+       
+            priority 
+            <input type="text" name="priority" required>
+
+        </label>
+
+        {# <label>
+       
+            Image
+            <input type="img" name="image" required>
+
+        </label> #}
+
+        <button>Add chore</button>
+   
+    </form>
+    
+
 
 {% endblock %}
 

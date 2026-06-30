@@ -24,16 +24,16 @@ class ChoreTable:
             id      INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             priority INTEGER NOT NULL DEFAULT 3,
-            complete BOOLEAN(INTEGER) NOT NULL DEFAULT 0
+            complete INTEGER NOT NULL DEFAULT 0
         )
     """
 
     SEED_DATA = """
-        INSERT INTO creatures (id, name, priority, complete)
+        INSERT INTO chores (name, priority, complete)
         VALUES
-            ("1", "Feed rabbit", "2"),
-            ("2", "Empty dishwasher", "4"),
-            ("3", "Vaccum bedroom",  "5")
+            ("Feed rabbit", 2, 0),
+            ("Empty dishwasher", 4, 0),
+            ("Vacuum bedroom",  5, 1)
     """
 
 # Add more table classes here...
