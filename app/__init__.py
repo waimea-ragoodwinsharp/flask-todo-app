@@ -20,28 +20,22 @@ app = Flask(__name__)
 # App Routes Handlers
 #===========================================================
 
+
+
 #-----------------------------------------------------------
-# Welcome page
+# home page
 #-----------------------------------------------------------
 @app.get("/")
-def show_welcome():
-    return render_template("pages/welcome.jinja")
-
-
-#-----------------------------------------------------------
-# Creature list page - Show all the creatures
-#-----------------------------------------------------------
-@app.get("/creatures")
-def show_all_creatures():
+def show_all_chores():
     with connect_db() as db:
         sql = """
-            SELECT id, species, name
-            FROM creatures
+            SELECT id, name, priority, complete
+            FROM chores
         """
         params = ()
         creatures = db.execute(sql, params).fetchall()
 
-        return render_template("pages/creature_list.jinja", creatures=creatures)
+        return render_template("pages/chore_list.jinja", chores=chores)
 
 
 #-----------------------------------------------------------

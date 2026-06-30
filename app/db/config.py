@@ -15,24 +15,25 @@
 #     SEED_DATA = "INSERT INTO name (...)" or None
 #----------------------------------------------------------------------------
 
-class CreatureTable:
+class ChoreTable:
 
-    NAME = "creatures"
+    NAME = "chores"
 
     SCHEMA = """
-        CREATE TABLE creatures (
+        CREATE TABLE chores (
             id      INTEGER PRIMARY KEY AUTOINCREMENT,
-            species TEXT NOT NULL,
-            name    TEXT NOT NULL
+            name TEXT NOT NULL,
+            priority INTEGER NOT NULL DEFAULT 3,
+            complete BOOLEAN(INTEGER) NOT NULL DEFAULT 0
         )
     """
 
     SEED_DATA = """
-        INSERT INTO creatures (species, name)
+        INSERT INTO creatures (id, name, priority, complete)
         VALUES
-            ("Dragon",  "Pippa"),
-            ("Unicorn", "Barry"),
-            ("Vampire", "Helen")
+            ("1", "Feed rabbit", "2"),
+            ("2", "Empty dishwasher", "4"),
+            ("3", "Vaccum bedroom",  "5")
     """
 
 # Add more table classes here...
@@ -55,7 +56,7 @@ class CreatureTable:
 #----------------------------------------------------------------------------
 
 TABLES = [
-    CreatureTable,
+    ChoreTable,
     # Add more tables here...
 ]
 
