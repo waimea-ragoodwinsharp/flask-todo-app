@@ -14,14 +14,19 @@
         {% for chore in chores %}
 
             <div class="chores">
-                <h3>{{ chore.name }}</h3>
-                <p><strong>{{ chore.priority }}</strong></p>
-
+                
+                <p><strong>{{ chore.priority }} . {{ chore.name }}</strong></p>
+                    
                     {% if chore.complete %} 
-                        <a href="/chore/{{ chore.id }}/complete">🗹</a> 
+                        <a href="/chore/{{ chore.id }}/incomplete">🗹</a> 
                     {% else %} 
                         <a href="/chore/{{ chore.id }}/complete">☐</a> 
                     {% endif %}
+
+                    {% if chore %} 
+                        <a href="/chore/{{ chore.id }}/delete">Delete</a> 
+                    {% endif%}
+                   
             </div>
 
         {% else %}
@@ -61,7 +66,9 @@
         <button>Add chore</button>
    
     </form>
-    
+
+
+</ul>
 
 
 {% endblock %}

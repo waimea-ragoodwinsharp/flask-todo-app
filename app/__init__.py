@@ -64,13 +64,14 @@ def show_help():
 @app.post("/chore/new")
 def process_chore_form():
     #get form data
-    priority = request.form.get("priotiry", "unknown").strip() #defult value if no species
     name = request.form.get("name", "unknown").strip()
+    priority = request.form.get("priotiry", "unknown").strip() #defult value if no species
+    
 
     #connect to the DB
     with connect_db() as db:
         sql = """
-            INSERT INTO chores (priority, name)
+            INSERT INTO chores ( priority, name )
             VALUES (?, ?)
         """
         params = (priority, name)
@@ -82,16 +83,53 @@ def process_chore_form():
 
         #done, return to list
         return redirect("/")
+
+#-----------------------------------------------------------
+# uncheck the box 
+#-----------------------------------------------------------
+@app.get("/chore/<int:id>/complete")
+def show_box_unticked(id):
+    with connect_db() as db:
+        sql = """
+            UPDATE chores SET complete = 1 WHERE id = ?
+        """
+        params = (id,)
+        db.execute(sql, params)
+
+        return redirect("/")
+
 #-----------------------------------------------------------
 # check the box 
 #-----------------------------------------------------------
-@app.get("/chore/<int:id>/complete")
-def show_box_ticked():
-    sql = """
-            SELECT chore FROM tasks WHERE complete=1
+@app.get("/chore/<int:id>/incomplete")
+def show_box_ticked(id):
+    with connect_db() as db:
+        sql = """
+            UPDATE chores SET complete = 0 WHERE id = ?
         """
-    return render_template("pages/chore_list.jinja")
+        params = (id,)
+        db.execute(sql, params)
 
+        return redirect("/")
+
+#-----------------------------------------------------------
+# chore deletion
+#-----------------------------------------------------------
+@app.get("/chore/<int:id>/delete")
+def delete_a_chores(id):
+    with connect_db() as db:
+        
+        sql = """
+            DELETE FROM chores
+            WHERE id=?
+        """
+        params = (id,)
+        db.execute(sql, params)
+
+
+        flash("chore deleted", "success")
+
+        return redirect("/")
 #===========================================================
 # Configure the app
 #===========================================================
